@@ -9,13 +9,13 @@ import (
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Println("指定された引数の数が間違っています。")
+		fmt.Println("Wrong number of arguments specified.")
 		os.Exit(1)
 	}
 	message := os.Args[1]
 	result := formatGithubMessage(message)
 	if result == "" {
-		fmt.Println("セキュリティに関する問題はありません。")
+		fmt.Println("No security issues.")
 		os.Exit(0)
 	}
 	fmt.Print(formatGithubMessage(message))
@@ -33,7 +33,7 @@ func formatGithubMessage(message string) string {
 func selectMessageBody(message string) (string, error) {
 	start := strings.Index(message, "[CVE")
 	if start == -1 {
-		return "", errors.New("エラー情報がありません。")
+		return "", errors.New("No error information.")
 	}
 	result := strings.Replace(strings.Replace(message[start:], "\n", "", -1), "[CVE", "\\n- [ ] [CVE", -1)
 	return result, nil
