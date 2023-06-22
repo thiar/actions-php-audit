@@ -44,8 +44,13 @@ JSON='{"title":"'"${TITLE}"'","body":"'"${PAYLOAD}"'","labels":'${LABEL_ARRAY}'}
 
 curl -sSL -H "${AUTH_HEADER}" -H "${API_HEADER}" -d "${JSON}" -H "Content-Type: application/json" -X POST "${URI}/repos/${GITHUB_REPOSITORY}/issues"
 
-/root/.nvm install
-NPM_AUDIT_MESSAG=$(npm audit --j)
+NODE_VERSION="20.3.0"
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+nvm install ${NODE_VERSION}
+nvm use ${NODE_VERSION}
+NPM_AUDIT_MESSAG=$(npm audit --json --package-lock-only)
 PAYLOAD="`php /opt/message-npm-audit.php "${NPM_AUDIT_MESSAG}"`"
 
 # exits error
@@ -53,7 +58,6 @@ if [ $? != 0 ]; then
   echo $PAYLOAD
   exit 1
 fi
-
 JSON='{"title":"'"${TITLE}"'","body":"'"${PAYLOAD}"'","labels":'${LABEL_ARRAY}'}'
 
 curl -sSL -H "${AUTH_HEADER}" -H "${API_HEADER}" -d "${JSON}" -H "Content-Type: application/json" -X POST "${URI}/repos/${GITHUB_REPOSITORY}/issues"
