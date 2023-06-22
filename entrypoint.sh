@@ -44,6 +44,7 @@ JSON='{"title":"'"${TITLE}"'","body":"'"${PAYLOAD}"'","labels":'${LABEL_ARRAY}'}
 
 curl -sSL -H "${AUTH_HEADER}" -H "${API_HEADER}" -d "${JSON}" -H "Content-Type: application/json" -X POST "${URI}/repos/${GITHUB_REPOSITORY}/issues"
 
+/root/.nvm install
 NPM_AUDIT_MESSAG=$(npm audit --j)
 PAYLOAD="`php /opt/message-npm-audit.php "${NPM_AUDIT_MESSAG}"`"
 

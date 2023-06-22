@@ -18,7 +18,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 RUN apt install -y curl
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 ENV NVM_DIR=/root/.nvm
-RUN . "$NVM_DIR/nvm.sh" && nvm install
 
 WORKDIR /tmp
 RUN wget https://github.com/sensiolabs/security-checker/archive/v${VERSION}.zip && \
