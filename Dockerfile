@@ -23,4 +23,5 @@ RUN composer install
 ARG WORK_DIR=""
 COPY entrypoint.sh /entrypoint.sh
 COPY --from=build /go/src/app/message /opt
+COPY script/message.php /opt
 ENTRYPOINT ["/entrypoint.sh"]

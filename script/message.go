@@ -16,8 +16,7 @@ func main() {
 	result := formatGithubMessage(message)
 	if result == "" {
 		fmt.Println("No security issues.")
-	}
-	if result != "" {
+	} else {
 		fmt.Print(formatGithubMessage(message))
 	}
 }
@@ -32,10 +31,10 @@ func formatGithubMessage(message string) string {
 }
 
 func selectMessageBody(message string) (string, error) {
-	start := strings.Index(message, "[CVE")
+	start := strings.Index(message, "cve")
 	if start == -1 {
 		return "", errors.New("No error information.")
 	}
-	result := strings.Replace(strings.Replace(message[start:], "\n", "", -1), "[CVE", "\\n- [ ] [CVE", -1)
+	result := strings.Replace(strings.Replace(message[start:], "\n", "", -1), "cve", "\\n- [ ] [CVE", -1)
 	return result, nil
 }

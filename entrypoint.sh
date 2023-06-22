@@ -22,8 +22,8 @@ API_HEADER="Accept: application/vnd.github.${API_VERSION}+json; application/vnd.
 AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 TITLE="PHP Security Report(`date "+%Y/%m/%d"`)"
 
-PHP_AUDIT_MESSAG=$(php /opt/security-checker/security-checker security:check composer.lock --format=simple)
-PAYLOAD="`/opt/message "${PHP_AUDIT_MESSAG}"`"
+PHP_AUDIT_MESSAG=$(php `which composer` audit -f json --locked)
+PAYLOAD="`php /opt/message.php "${PHP_AUDIT_MESSAG}"`"
 
 # exits error
 if [ $? != 0 ]; then
