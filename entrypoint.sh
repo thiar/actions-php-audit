@@ -23,7 +23,7 @@ AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 TITLE="PHP Security Report(`date "+%Y/%m/%d"`)"
 
 PHP_AUDIT_MESSAG=$(php `which composer` audit -f json --locked)
-PAYLOAD="`php /opt/message.php "${PHP_AUDIT_MESSAG}"`"
+PAYLOAD="`php /opt/message-composer-audit.php "${PHP_AUDIT_MESSAG}"`"
 
 # exits error
 if [ $? != 0 ]; then
@@ -39,6 +39,19 @@ do
  LABEL_ARRAY="${LABEL_ARRAY}\"${STR}\","
 done
 LABEL_ARRAY="${LABEL_ARRAY%,}]"
+
+JSON='{"title":"'"${TITLE}"'","body":"'"${PAYLOAD}"'","labels":'${LABEL_ARRAY}'}'
+
+curl -sSL -H "${AUTH_HEADER}" -H "${API_HEADER}" -d "${JSON}" -H "Content-Type: application/json" -X POST "${URI}/repos/${GITHUB_REPOSITORY}/issues"
+
+NPM_AUDIT_MESSAG=$(npm audit --j)
+PAYLOAD="`php /opt/message-npm-audit.php "${NPM_AUDIT_MESSAG}"`"
+
+# exits error
+if [ $? != 0 ]; then
+  echo $PAYLOAD
+  exit 1
+fi
 
 JSON='{"title":"'"${TITLE}"'","body":"'"${PAYLOAD}"'","labels":'${LABEL_ARRAY}'}'
 
