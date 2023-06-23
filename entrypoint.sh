@@ -50,6 +50,7 @@ NODE_VERSION="20.3.0"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+rm -rf "$NVM_DIR/versions/node/v$NODE_VERSION/"
 nvm install ${NODE_VERSION}
 nvm use ${NODE_VERSION}
 NPM_AUDIT_MESSAG=$(npm audit --json --package-lock-only)
